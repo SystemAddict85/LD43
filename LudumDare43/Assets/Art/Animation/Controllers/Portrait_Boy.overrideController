@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Portrait_Boy
+  m_Controller: {fileID: 9100000, guid: aeb1fc6de892e814f9478a62b9c526b9, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: bb6e9563e2022a14a86aa42919a1bcb1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 289f5f12ea5f6854084352dd1b814a06, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 60492c4e9a1df2d4c97a02fe75724382, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5489f3504307a6e4391f69cdcc2a7451, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2709e83b8d61a5b4b905651282ef0077, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fc3c12b6fa98f3641942dcd1dd1d8b5f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d242c4b56e0174d47a1718d1fcec56b3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fad91033457e4f24b96c26ff883c85fc, type: 2}

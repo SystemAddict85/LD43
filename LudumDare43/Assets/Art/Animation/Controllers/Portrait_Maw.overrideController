@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Portrait_Maw
+  m_Controller: {fileID: 9100000, guid: aeb1fc6de892e814f9478a62b9c526b9, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: bb6e9563e2022a14a86aa42919a1bcb1, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6761f4aeb139e8b4e8f884b8bc40a44b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 60492c4e9a1df2d4c97a02fe75724382, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 680135dc8a0b4bb4e9a39c2b657cc7b6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2709e83b8d61a5b4b905651282ef0077, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f0ffd06b1236f3b478880de1bbaf4e30, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d242c4b56e0174d47a1718d1fcec56b3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f3f5797ab6bec5648b7b466b46581621, type: 2}
