@@ -7,54 +7,48 @@ using System;
 
 public class UIStatusBars : MonoBehaviour {
 
-    public enum StatusBarType { HEALTH, HUNGER, ENERGY };
+    public enum StatusBarType { HEALTH, ENERGY, HUNGER };
+        
+    private Image[] bars;
 
     [SerializeField]
-    private Image[] bars;
-    private bool readyToTest = true;
+    private Sprite[] frameSprites;
+    private Image barFrames;
+
+    private int currentBinaryCode = 0;
 
     private void Awake()
     {
         var images = GetComponentsInChildren<Image>();
+        barFrames = images[0];
         bars = images.Skip(1).ToArray();
-    }
-
-    private void Start()
-    {
-        UpdateBar(StatusBarType.HEALTH, .75f);
-        UpdateBar(StatusBarType.ENERGY, .25f);
-        UpdateBar(StatusBarType.HUNGER, 0f);
-    }
-
-
-    private void Update()
-    {
-        //testing
-        if (readyToTest)
-        {
-            readyToTest = false;
-            StartCoroutine(WaitToTest());
-            for (int i = 0; i < 3; ++i)
-            {
-                var testFill = bars[i].fillAmount -.05f;
-                if (testFill < 0f)
-                    testFill = 1f;
-                UpdateBar((StatusBarType)i, testFill);
-            }
-        }
-    }
-
-    private IEnumerator WaitToTest()
-    {
-        yield return new WaitForSeconds(0.1f);
-        readyToTest = true;
-
     }
 
     public void UpdateBar(StatusBarType type, float percentAmount)
     {
+        var bar = bars[(int)type];
+        bool wasEmpty = (bar.fillAmount == 0f);
+
+        // use binary to encode image sprites
+        if (wasEmpty && percentAmount > 0f)
+        {
+            // subtract two to the power of type to remove icons
+            int code = -(int)Mathf.Pow(2f, (int)type);
+            Debug.Log(code);
+            UpdateEmptyBarSprites(code);
+        } else if(!wasEmpty && percentAmount == 0f)
+        {
+            // add two to the power of type to add icons
+            int code = (int)Mathf.Pow(2f,(int)type);
+            UpdateEmptyBarSprites(code);
+        }
         bars[(int)type].fillAmount = percentAmount;
-        
+    }
+
+    private void UpdateEmptyBarSprites(int amount)
+    {
+        currentBinaryCode += amount;
+        barFrames.sprite = frameSprites[currentBinaryCode];
     }
 	
 }

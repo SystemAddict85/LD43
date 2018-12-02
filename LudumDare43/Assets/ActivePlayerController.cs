@@ -28,7 +28,7 @@ public class ActivePlayerController : SimpleSingleton<ActivePlayerController> {
     {
         int prevIndex = (int)ActivePlayerCharacter;        
         // if player is in danger and inactive, pointer must be red
-        players[prevIndex].pointer.UpdatePointer(players[prevIndex].isInDanger ? PlayerPointer.PointerStatus.DANGER : PlayerPointer.PointerStatus.INACTIVE);
+        players[prevIndex].pointer.UpdatePointer(players[prevIndex].IsInDanger ? PlayerPointer.PointerStatus.DANGER : PlayerPointer.PointerStatus.INACTIVE);
 
         // update active player
         ActivePlayerCharacter = player;

@@ -5,15 +5,41 @@ using UnityEngine;
 
 public class Bed : InteractableObject {
 
+    private Animator anim;
+
+    public override void Awake()
+    {
+        base.Awake();
+        anim = GetComponent<Animator>();
+    }
 
     public override void Interact()
     {
-        Sleep();
+        var player = ActivePlayerController.ActivePlayer;
+        if (player.canSleepOrWake)
+        {
+            if (player.isSleeping)
+            {
+                Wake(player);
+            }
+            else
+            {
+                Sleep(player);
+            }
+        }
     }
 
-    public void Sleep()
+    public void Sleep(Player player)
+    {       
+        player.isSleeping = true;
+        var animation = player.playerCharacter.ToString().ToLower() + "Sleep";
+        anim.SetBool(animation, true);
+    }
+    public void Wake(Player player)
     {
-        Debug.Log("TODO: sleep");
-    }       
+        player.isSleeping = false;
+        var animation = player.playerCharacter.ToString().ToLower() + "Sleep";
+        anim.SetBool(animation, false);
+    }
 
 }

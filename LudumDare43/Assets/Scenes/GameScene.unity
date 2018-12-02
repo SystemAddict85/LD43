@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 22321830}
   - component: {fileID: 22321829}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 103395486}
   - component: {fileID: 103395485}
   - component: {fileID: 103395484}
+  - component: {fileID: 103395488}
   m_Layer: 5
   m_Name: MainUICanvas
   m_TagString: Untagged
@@ -685,6 +686,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &103395488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 103395483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f39682139cbe354bb6eae2dd9e89d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &109855095
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +708,7 @@ GameObject:
   - component: {fileID: 109855098}
   - component: {fileID: 109855097}
   m_Layer: 5
-  m_Name: Energy
+  m_Name: Hunger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2849,7 +2861,7 @@ GameObject:
   - component: {fileID: 745903148}
   - component: {fileID: 745903147}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3077,6 +3089,7 @@ GameObject:
   - component: {fileID: 799901989}
   - component: {fileID: 799901990}
   - component: {fileID: 799901991}
+  - component: {fileID: 799901992}
   m_Layer: 8
   m_Name: Maw
   m_TagString: Player
@@ -3179,10 +3192,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ade4095e39f46449594a17585fc26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: 1
   controller: {fileID: 0}
   pointer: {fileID: 0}
-  playerCharacter: 1
-  isInDanger: 0
+  dangerEvents: 0
+  dangerEventDuration: 3
+  canSleepOrWake: 1
+  isSleeping: 0
+  stats: {fileID: 0}
+  isDrained: 0
+  isHungry: 0
+  hungerPainIteration: 3
+  isDead: 0
+--- !u!114 &799901992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 799901985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637d2d77ff8b9984bacd4a8f61df5a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  maxHunger: 10
+  maxEnergy: 10
 --- !u!1 &811091450
 GameObject:
   m_ObjectHideFlags: 0
@@ -3636,7 +3671,7 @@ RectTransform:
   m_GameObject: {fileID: 962204595}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 364551492}
   - {fileID: 745903146}
@@ -3717,6 +3752,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bars: []
+  frameSprites:
+  - {fileID: 21300000, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300002, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300004, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300006, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300008, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300010, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300012, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300014, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
 --- !u!1 &1006759668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,7 +4288,7 @@ RectTransform:
   m_GameObject: {fileID: 1324653793}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 746600386}
   - {fileID: 1438394119}
@@ -4325,6 +4369,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bars: []
+  frameSprites:
+  - {fileID: 21300000, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300002, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300004, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300006, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300008, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300010, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300012, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300014, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
 --- !u!1 &1382655467
 GameObject:
   m_ObjectHideFlags: 0
@@ -8546,7 +8599,7 @@ GameObject:
   - component: {fileID: 1438394121}
   - component: {fileID: 1438394120}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8926,7 +8979,7 @@ GameObject:
   - component: {fileID: 1567451479}
   - component: {fileID: 1567451478}
   m_Layer: 5
-  m_Name: Hunger
+  m_Name: Energy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9092,6 +9145,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bars: []
+  frameSprites:
+  - {fileID: 21300000, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300002, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300004, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300006, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300008, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300010, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300012, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300014, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
 --- !u!1 &1572432406
 GameObject:
   m_ObjectHideFlags: 0
@@ -9103,7 +9165,7 @@ GameObject:
   - component: {fileID: 1572432409}
   - component: {fileID: 1572432408}
   m_Layer: 5
-  m_Name: Energy
+  m_Name: Hunger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9288,7 +9350,7 @@ GameObject:
   - component: {fileID: 1672336881}
   - component: {fileID: 1672336880}
   m_Layer: 5
-  m_Name: Energy
+  m_Name: Hunger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9359,6 +9421,7 @@ GameObject:
   - component: {fileID: 1680799295}
   - component: {fileID: 1680799296}
   - component: {fileID: 1680799297}
+  - component: {fileID: 1680799298}
   m_Layer: 8
   m_Name: Beth
   m_TagString: Player
@@ -9461,10 +9524,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ade4095e39f46449594a17585fc26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: 2
   controller: {fileID: 0}
   pointer: {fileID: 0}
-  playerCharacter: 2
-  isInDanger: 0
+  dangerEvents: 0
+  dangerEventDuration: 3
+  canSleepOrWake: 1
+  isSleeping: 0
+  stats: {fileID: 0}
+  isDrained: 0
+  isHungry: 0
+  hungerPainIteration: 3
+  isDead: 0
+--- !u!114 &1680799298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1680799291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637d2d77ff8b9984bacd4a8f61df5a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  maxHunger: 10
+  maxEnergy: 10
 --- !u!1 &1854270505
 GameObject:
   m_ObjectHideFlags: 0
@@ -9721,7 +9806,7 @@ GameObject:
   - component: {fileID: 1943107257}
   - component: {fileID: 1943107256}
   m_Layer: 5
-  m_Name: Energy
+  m_Name: Hunger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9806,7 +9891,7 @@ RectTransform:
   m_GameObject: {fileID: 1976756376}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 486324032}
   - {fileID: 1567451477}
@@ -9887,6 +9972,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bars: []
+  frameSprites:
+  - {fileID: 21300000, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300002, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300004, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300006, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300008, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300010, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300012, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
+  - {fileID: 21300014, guid: 5d5faa1225924be438e162e5c898a829, type: 3}
 --- !u!1 &2031007450
 GameObject:
   m_ObjectHideFlags: 0
@@ -9900,6 +9994,7 @@ GameObject:
   - component: {fileID: 2031007454}
   - component: {fileID: 2031007455}
   - component: {fileID: 2031007456}
+  - component: {fileID: 2031007457}
   m_Layer: 8
   m_Name: Paw
   m_TagString: Player
@@ -10002,10 +10097,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ade4095e39f46449594a17585fc26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: 0
   controller: {fileID: 0}
   pointer: {fileID: 0}
-  playerCharacter: 0
-  isInDanger: 0
+  dangerEvents: 0
+  dangerEventDuration: 3
+  canSleepOrWake: 1
+  isSleeping: 0
+  stats: {fileID: 0}
+  isDrained: 0
+  isHungry: 0
+  hungerPainIteration: 3
+  isDead: 0
+--- !u!114 &2031007457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2031007450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637d2d77ff8b9984bacd4a8f61df5a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  maxHunger: 10
+  maxEnergy: 10
 --- !u!1 &2050133787
 GameObject:
   m_ObjectHideFlags: 0
@@ -10139,6 +10256,7 @@ GameObject:
   - component: {fileID: 2074190551}
   - component: {fileID: 2074190552}
   - component: {fileID: 2074190553}
+  - component: {fileID: 2074190554}
   m_Layer: 8
   m_Name: Tom
   m_TagString: Player
@@ -10241,7 +10359,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79ade4095e39f46449594a17585fc26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: 3
   controller: {fileID: 0}
   pointer: {fileID: 0}
-  playerCharacter: 3
-  isInDanger: 1
+  dangerEvents: 0
+  dangerEventDuration: 3
+  canSleepOrWake: 1
+  isSleeping: 0
+  stats: {fileID: 0}
+  isDrained: 0
+  isHungry: 0
+  hungerPainIteration: 3
+  isDead: 0
+--- !u!114 &2074190554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2074190547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637d2d77ff8b9984bacd4a8f61df5a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  maxHunger: 10
+  maxEnergy: 10

@@ -6,6 +6,8 @@ public class PlayerZoomCamera : SimpleSingleton<PlayerZoomCamera> {
 
     private Cinemachine.CinemachineVirtualCamera vCamera;
 
+    private bool isCameraBusy = false;
+
     public override void Awake()
     {
         base.Awake();
@@ -14,8 +16,19 @@ public class PlayerZoomCamera : SimpleSingleton<PlayerZoomCamera> {
         vCamera.enabled = false;
     }
 
+    public IEnumerator ZoomToEvent(Transform t, float seconds)
+    {
+        if (!isCameraBusy)
+        {
+            isCameraBusy = true;
+            ZoomToTransform(t);
+            yield return new WaitForSeconds(seconds);
+            ZoomOut();
+        }
+    }
     public void ZoomToTransform(Transform t)
     {
+        isCameraBusy = true;
         Vector3 pos = t.position;
         pos.z = -10f;
         transform.position = pos;
@@ -25,6 +38,7 @@ public class PlayerZoomCamera : SimpleSingleton<PlayerZoomCamera> {
 
     public void ZoomOut()
     {
+        isCameraBusy = false;
         vCamera.enabled = false;
     }
 }
