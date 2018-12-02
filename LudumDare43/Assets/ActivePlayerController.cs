@@ -7,12 +7,15 @@ public class ActivePlayerController : SimpleSingleton<ActivePlayerController> {
     public static Player.PlayerCharacter ActivePlayerCharacter { get; private set; }
     public static Player ActivePlayer { get { return Instance.players[(int)ActivePlayerCharacter]; } }
 
+    public System.Action<Player.PlayerCharacter> OnPlayerChange;
+
     public Player[] players;
 
     public override void Awake()
     {
         base.Awake();
-        players = GetComponentsInChildren<Player>();        
+        players = GetComponentsInChildren<Player>();
+        OnPlayerChange += ChangePlayer;
     }
 
     private void Start()

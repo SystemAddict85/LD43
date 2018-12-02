@@ -44,17 +44,16 @@ public class Portrait : MonoBehaviour
 
     private void ChangePlayer()
     {
-        ActivePlayerController.Instance.ChangePlayer(playerCharacter);
-
-        // TODO: remove after testing
-        if(playerCharacter == Player.PlayerCharacter.Boy)
-        {
-            PlayerZoomCamera.Instance.ZoomToTransform(ActivePlayerController.ActivePlayer.transform);
-        }
-        else
-        {
-            PlayerZoomCamera.Instance.ZoomOut();
-        }
+        ActivePlayerController.Instance.OnPlayerChange(playerCharacter);
+                
+        //if(playerCharacter == Player.PlayerCharacter.Boy)
+        //{
+        //    PlayerZoomCamera.Instance.ZoomToTransform(ActivePlayerController.ActivePlayer.transform);
+        //}
+        //else
+        //{
+        //    PlayerZoomCamera.Instance.ZoomOut();
+        //}
     }
 
     private float RandomizeTime(float freq)

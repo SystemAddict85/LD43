@@ -1,19 +1,24 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractionBounds : MonoBehaviour
 {
     private InteractableObject intObject;
-    private int numInRange = 0;
+    private List<Player.PlayerCharacter> charactersInRange = new List<Player.PlayerCharacter>();
 
     private void Awake()
     {
         intObject = GetComponentInParent<InteractableObject>();
     }
 
+    private void Start()
+    {
+        ActivePlayerController.Instance.OnPlayerChange += CheckForActivePlayerInBounds;
+    }
+
     private void Update()
     {
-        if(numInRange > 0 && intObject.readyToInteract && intObject.AllowedToInteract)
+        if (intObject.AllowedToInteract && intObject.readyToInteract)
         {
             GetInput();
         }
@@ -23,31 +28,56 @@ public class InteractionBounds : MonoBehaviour
     {
         if (intObject.CanInteract(col.gameObject))
         {
-            if (++numInRange == 1)
+            charactersInRange.Add(col.GetComponent<Player>().playerCharacter);
+            if (charactersInRange.Count > 0)
             {
-                intObject.ToggleContextButton(true);
+                PlayersEntered();
             }
-            intObject.readyToInteract = true;
         }
+    }
+
+    private void PlayersEntered()
+    {
+        intObject.ToggleContextButton(true);
+        intObject.readyToInteract = true;
+    }
+
+    private void PlayersExited()
+    {
+        intObject.ToggleContextButton(false);
+        intObject.readyToInteract = false;
     }
 
     public void OnTriggerExit2D(Collider2D col)
     {
         if (intObject.CanInteract(col.gameObject))
         {
-            if (--numInRange == 0)
+            charactersInRange.Remove(col.GetComponent<Player>().playerCharacter);
+            if (charactersInRange.Count == 0)
             {
-                intObject.readyToInteract = false;
-                intObject.ToggleContextButton(false);
+                PlayersExited();
             }
+
         }
-    }    
+    }
 
     public void GetInput()
     {
         if (Input.GetButtonDown("Interact"))
         {
             intObject.CheckForInteraction();
+        }
+    }
+
+    private void CheckForActivePlayerInBounds(Player.PlayerCharacter player)
+    {
+        if (charactersInRange.Contains(player))
+        {
+            PlayersEntered();
+        }
+        else
+        {
+            PlayersExited();
         }
     }
 }
