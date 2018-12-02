@@ -44,6 +44,9 @@ TagManager:
   - name: GroundTile
     uniqueID: 308685269
     locked: 0
+  - name: Objects
+    uniqueID: 659008023
+    locked: 0
   - name: Characters
     uniqueID: 3907824561
     locked: 0

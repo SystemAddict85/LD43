@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ActivePlayerController : SimpleSingleton<ActivePlayerController> {
 
-    public static Player.PlayerCharacter ActivePlayer { get; private set; }
+    public static Player.PlayerCharacter ActivePlayerCharacter { get; private set; }
+    public static Player ActivePlayer { get { return Instance.players[(int)ActivePlayerCharacter]; } }
 
     public Player[] players;
 
@@ -16,24 +17,24 @@ public class ActivePlayerController : SimpleSingleton<ActivePlayerController> {
 
     private void Start()
     {
-        ActivePlayer = Player.PlayerCharacter.Paw;
-        players[(int)ActivePlayer].pointer.UpdatePointer(PlayerPointer.PointerStatus.ACTIVE);
+        ActivePlayerCharacter = Player.PlayerCharacter.Paw;
+        players[(int)ActivePlayerCharacter].pointer.UpdatePointer(PlayerPointer.PointerStatus.ACTIVE);
     }
 
     public void ChangePlayer(Player.PlayerCharacter player)
     {
-        int prevIndex = (int)ActivePlayer;        
+        int prevIndex = (int)ActivePlayerCharacter;        
         // if player is in danger and inactive, pointer must be red
         players[prevIndex].pointer.UpdatePointer(players[prevIndex].isInDanger ? PlayerPointer.PointerStatus.DANGER : PlayerPointer.PointerStatus.INACTIVE);
 
         // update active player
-        ActivePlayer = player;
+        ActivePlayerCharacter = player;
         players[(int)player].pointer.UpdatePointer(PlayerPointer.PointerStatus.ACTIVE);
     }
 
     public static bool IsActivePlayer(Player.PlayerCharacter player)
     {
-        return player == ActivePlayer;
+        return player == ActivePlayerCharacter;
     }
 
 }
