@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     public bool canSleepOrWake = true;
     [HideInInspector]
     public bool isSleeping = false;
+    private bool readyToRest = false;
+    [SerializeField]
+    private float restingIteration = 3f;
+    private Coroutine sleepCoroutine;
 
     [HideInInspector]
     public PlayerStats stats;
@@ -59,8 +63,20 @@ public class Player : MonoBehaviour
         {
             hungerCoroutine = StartCoroutine(HungerPain());
         }
+        if (isSleeping && readyToRest)
+        {
+            sleepCoroutine = StartCoroutine(Resting());
+        }
     }
 
+    private IEnumerator Resting()
+    {
+        readyToRest = false;
+        yield return new WaitForSeconds(restingIteration);
+        OnEnergyUpdate(+1);
+        Debug.Log(playerCharacter + " rests in bed.");
+        readyToRest = true;
+    }
     private IEnumerator HungerPain()
     {
         readyToHungerPain = false;
@@ -81,12 +97,33 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void StartSleep()
+    {
+        if (!isSleeping)
+        {
+            isSleeping = true;
+            Debug.Log(playerCharacter + " goes to sleep");
+            readyToRest = true;
+        }
+    }
+
+    public void EndSleep()
+    {
+        if (sleepCoroutine != null)
+        {
+            StopCoroutine(sleepCoroutine);
+        }
+
+        isSleeping = false;
+        readyToRest = false;
+    }
+
     public void StartHunger()
     {
         if (!isHungry)
         {
             isHungry = true;
-            Debug.Log(playerCharacter + " is starving.");            
+            Debug.Log(playerCharacter + " is starving.");
             readyToHungerPain = true;
             OnDangerEvent(dangerEventDuration);
         }

@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 10330f83ca3838543b546b54257391b6
+guid: 4fa735f5512325546ae3a208d14d5d8c
 TextureImporter:
   fileIDToRecycleName:
-    21300000: rifle_0
-    21300002: rifle_1
+    21300000: rabbit_0
+    21300002: rabbit_1
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -119,7 +119,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rifle_0
+      name: rabbit_0
       rect:
         serializedVersion: 2
         x: 0
@@ -133,13 +133,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd0893b16a04efb4abe4d891ef9d53b3
+      spriteID: 7268e3e4f0b1c854583f3d04c5ceb952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: rifle_1
+      name: rabbit_1
       rect:
         serializedVersion: 2
         x: 16
@@ -153,7 +153,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc90726aad69a0a47a57934c9d9132a6
+      spriteID: 0d96722a45e9bb44c83ee18b85db9da6
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fd3707014bb46c048bf3ca6453fcea12
+    spriteID: ffa01785ead322c459efbd5c8f4f3993
     vertices: []
     indices: 
     edges: []

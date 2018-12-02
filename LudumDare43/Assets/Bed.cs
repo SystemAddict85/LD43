@@ -31,15 +31,15 @@ public class Bed : InteractableObject {
 
     public void Sleep(Player player)
     {       
-        player.isSleeping = true;
         var animation = player.playerCharacter.ToString().ToLower() + "Sleep";
         anim.SetBool(animation, true);
+        player.StartSleep();
     }
     public void Wake(Player player)
     {
-        player.isSleeping = false;
         var animation = player.playerCharacter.ToString().ToLower() + "Sleep";
         anim.SetBool(animation, false);
+        player.EndSleep();
     }
 
 }

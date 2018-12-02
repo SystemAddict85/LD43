@@ -42,6 +42,7 @@ SpriteAtlas:
     packables:
     - {fileID: 2800000, guid: ee78a3ac2050a74459b7fe0de51285a9, type: 3}
     - {fileID: 2800000, guid: 8fc0397b16f020442b4eb66709812776, type: 3}
+    - {fileID: 2800000, guid: 5ed805fd5008218448ee5f67efd5722b, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -56,6 +57,9 @@ SpriteAtlas:
   - {fileID: 21300012, guid: ee78a3ac2050a74459b7fe0de51285a9, type: 3}
   - {fileID: 21300010, guid: ee78a3ac2050a74459b7fe0de51285a9, type: 3}
   - {fileID: 21300008, guid: ee78a3ac2050a74459b7fe0de51285a9, type: 3}
+  - {fileID: 21300004, guid: 5ed805fd5008218448ee5f67efd5722b, type: 3}
+  - {fileID: 21300000, guid: 5ed805fd5008218448ee5f67efd5722b, type: 3}
+  - {fileID: 21300002, guid: 5ed805fd5008218448ee5f67efd5722b, type: 3}
   m_PackedSpriteNamesToIndex:
   - snow_tiles_1
   - snow_tiles_0
@@ -68,5 +72,8 @@ SpriteAtlas:
   - snow_tiles2_6
   - snow_tiles2_5
   - snow_tiles2_4
+  - snow_tiles3_2
+  - snow_tiles3_0
+  - snow_tiles3_1
   m_Tag: Tiles
   m_IsVariant: 0
