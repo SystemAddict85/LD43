@@ -33,6 +33,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.IsTouchingLayers(layersToHit.value))//(layerNames[0].layerNames.Contains(collision.gameObject.layer.ToString())){            
             if (collision.gameObject.tag == "Player")
             {
