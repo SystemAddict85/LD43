@@ -43,6 +43,34 @@ public class RifleHook : InteractableObject {
     private void EquipRifle()
     {
         Debug.Log("TODO: Equip rifle");
-        ActivePlayerController.ActivePlayer.GetComponentInChildren<RifleController>().ToggleRifle(true);
+        var rifleController = ActivePlayerController.ActivePlayer.GetComponentInChildren<RifleController>();
+        rifleController.ToggleRifle(true);
+    }
+
+    public override bool CanInteract(GameObject go)
+    {
+        var player = go.GetComponent<Player>();
+        if (isRifleHanging)
+        {
+            if (player)
+            {
+                return playersAllowedToInteract.Contains(player.playerCharacter);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (player && RifleController.IsActivePlayerCarryingGun )
+            {
+                return playersAllowedToInteract.Contains(player.playerCharacter);
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

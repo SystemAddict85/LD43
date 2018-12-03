@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RifleController : MonoBehaviour {
+public class RifleController : MonoBehaviour
+{
 
     public bool canShoot = true;
     private Animator anim;
@@ -22,6 +22,15 @@ public class RifleController : MonoBehaviour {
     [SerializeField]
     private float rifleRange = 20f;
 
+    public static bool IsActivePlayerCarryingGun
+    {
+        get
+        {
+            var rifleController = ActivePlayerController.ActivePlayer.GetComponentInChildren<RifleController>();
+            return rifleController != null && rifleController.rifleEquipped;
+        }
+    }
+
     private void Awake()
     {
         anim = GetComponentInParent<Animator>();
@@ -29,24 +38,29 @@ public class RifleController : MonoBehaviour {
 
     void Update()
     {
-        if (rifleEquipped && canShoot && readyToShoot && TotalAmmo > 0 && Input.GetButtonDown("Shoot"))
+        if (IsActivePlayerCarryingGun && rifleEquipped && canShoot && readyToShoot && TotalAmmo > 0 && Input.GetButtonDown("Shoot"))
         {
-            Shoot();    
+            Shoot();
         }
     }
 
     public void ToggleRifle(bool enabled)
     {
         rifleEquipped = enabled;
-        anim.SetBool("rifleEquipped", enabled);
+        anim.SetBool("rifleEquipped", enabled);     
     }
 
     void Shoot()
     {
         StartCoroutine(WaitToShoot());
+        // actual animation
         anim.SetTrigger("shootRifle");
+
+        // for smoke
+        GetComponentInChildren<Animator>().SetTrigger("shoot");
+        AudioManager.PlaySFX("rifleShot", .25f, 0f);
         var hit = Physics2D.Raycast(transform.position, -transform.up, rifleRange, layersToHit.value);
-        Debug.DrawRay(transform.position, -transform.up,Color.red);
+        Debug.DrawRay(transform.position, -transform.up, Color.red);
         if (hit)
         {
             Debug.Log("pew: hit " + hit.transform.name);
@@ -63,9 +77,9 @@ public class RifleController : MonoBehaviour {
                 Destroy(blood.gameObject, 1f);
             }
         }
-        
+
         //var bullet = Instantiate(Resources.Load("Prefabs/Bullet"), transform.position, transform.rotation, transform.root) as GameObject; 
-            
+
         --TotalAmmo;
     }
 

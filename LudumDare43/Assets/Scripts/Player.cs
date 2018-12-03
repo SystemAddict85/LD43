@@ -27,6 +27,12 @@ public class Player : MonoBehaviour
     private float restingIteration = 3f;
     private Coroutine sleepCoroutine;
 
+    [SerializeField]
+    private float freezingIteration = 3f;
+    private bool isCold = false;
+    private bool readyToFreeze = true;
+    private Coroutine coldCoroutine;
+
     [HideInInspector]
     public PlayerStats stats;
 
@@ -47,18 +53,25 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
+    private bool readyToGetHungry = false;
+    private float normalHungerDuration = 5f;
+    private Coroutine normalHungerCoroutine;
+
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
         pointer = GetComponentInChildren<PlayerPointer>();
-        stats = GetComponent<PlayerStats>();
-
+        stats = GetComponent<PlayerStats>();        
         OnDangerEvent += PlayerInDanger;
         OnDangerClear += PlayerNoLongerInDanger;
     }
 
     private void Update()
     {
+        if (readyToGetHungry)
+        {
+            normalHungerCoroutine = StartCoroutine(GettingHungry());
+        }
         if (readyToHungerPain && isHungry)
         {
             hungerCoroutine = StartCoroutine(HungerPain());
@@ -67,8 +80,19 @@ public class Player : MonoBehaviour
         {
             sleepCoroutine = StartCoroutine(Resting());
         }
+        if(isCold && readyToFreeze)
+        {
+            coldCoroutine = StartCoroutine(Freezing());
+        }
     }
 
+    private IEnumerator GettingHungry()
+    {
+        readyToGetHungry = false;
+        yield return new WaitForSeconds(normalHungerDuration);
+        OnHungerUpdate(-1);        
+        readyToGetHungry = true;
+    }
     private IEnumerator Resting()
     {
         readyToRest = false;
@@ -116,6 +140,34 @@ public class Player : MonoBehaviour
 
         isSleeping = false;
         readyToRest = false;
+    }
+
+    public void StartColdCounter()
+    {
+        if (!isCold)
+        {
+            isCold = true;
+            readyToFreeze = true;
+            Debug.Log(playerCharacter + " is freezing");
+        }
+    }
+
+    IEnumerator Freezing()
+    {
+        readyToFreeze = false;
+        yield return new WaitForSeconds(3f);
+        readyToFreeze = true;
+        OnEnergyUpdate(-1);
+
+    }
+
+    public void WarmingUp()
+    {
+        if(coldCoroutine != null)
+            StopCoroutine(coldCoroutine);
+        isCold = false;
+        Debug.Log(playerCharacter + " is warming up.");
+
     }
 
     public void StartHunger()

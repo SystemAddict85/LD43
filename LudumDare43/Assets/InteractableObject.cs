@@ -30,7 +30,7 @@ public class InteractableObject : MonoBehaviour
     {
         var player = go.GetComponent<Player>();
 
-        if (player)
+        if (player && !RifleController.IsActivePlayerCarryingGun)
         {
             return playersAllowedToInteract.Contains(player.playerCharacter);
         }

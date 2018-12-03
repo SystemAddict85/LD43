@@ -50,9 +50,9 @@ public class InteractionBounds : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D col)
     {
-        if (intObject.CanInteract(col.gameObject))
-        {
-            charactersInRange.Remove(col.GetComponent<Player>().playerCharacter);
+        var player = col.GetComponent<Player>();
+        if (player && charactersInRange.Contains(player.playerCharacter)) { 
+            charactersInRange.Remove(player.playerCharacter);
             if (charactersInRange.Count == 0)
             {
                 PlayersExited();
