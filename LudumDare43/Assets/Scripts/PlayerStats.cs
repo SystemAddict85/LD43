@@ -45,30 +45,31 @@ public class PlayerStats : MonoBehaviour
     private void Update()
     {
         //testing
-        if (Input.GetMouseButtonDown(1))
-        {
-            player.OnHealthUpdate(-1);
-            player.OnEnergyUpdate(-1);
-            player.OnHungerUpdate(-1);
-            if(currentHealth <= 0)
-            {
-                currentHealth = maxHealth;
-            }
-            if (currentEnergy <= 0)
-            {
-                currentEnergy = maxEnergy;
-            }
-            if (currentHunger <= 0)
-            {
-                currentHunger = maxHunger;
-            }
-        }
+        //if (Input.GetMouseButtonDown(1))
+        //{            
+        //    player.OnHealthUpdate(-1);
+        //    player.OnEnergyUpdate(-1);
+        //    player.OnHungerUpdate(-1);
+        //    if(currentHealth <= 0)
+        //    {
+        //        currentHealth = maxHealth;
+        //    }
+        //    if (currentEnergy <= 0)
+        //    {
+        //        currentEnergy = maxEnergy;
+        //    }
+        //    if (currentHunger <= 0)
+        //    {
+        //        currentHunger = maxHunger;
+        //    }
+        //}
     }
 
     public void UpdateHealth(int change)
     {
         currentHealth += change;
-        if(currentHealth <= 0)
+        UIManager.Instance.GetUIStatusBars(player.playerCharacter).UpdateBar(UIStatusBars.StatusBarType.HEALTH, HealthPercent);
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             player.Die();
@@ -77,7 +78,6 @@ public class PlayerStats : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
-        UIManager.Instance.GetUIStatusBars(player.playerCharacter).UpdateBar(UIStatusBars.StatusBarType.HEALTH, HealthPercent);
     }
 
     public void UpdateHunger(int change)

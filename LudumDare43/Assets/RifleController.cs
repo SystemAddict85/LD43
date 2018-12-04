@@ -11,8 +11,6 @@ public class RifleController : MonoBehaviour
 
     [SerializeField]
     private float shootingDelay = 1f;
-    [SerializeField]
-    private Vector3 rifleOffset = new Vector2(-0.74f, .5f);
     private bool readyToShoot = true;
 
     public static int TotalAmmo = 1000;
@@ -52,6 +50,8 @@ public class RifleController : MonoBehaviour
 
     void Shoot()
     {
+
+        ActivePlayerController.ActivePlayer.OnEnergyUpdate(-1);
         StartCoroutine(WaitToShoot());
         // actual animation
         anim.SetTrigger("shootRifle");
@@ -60,7 +60,7 @@ public class RifleController : MonoBehaviour
         GetComponentInChildren<Animator>().SetTrigger("shoot");
         AudioManager.PlaySFX("rifleShot", .25f, 0f);
         var hit = Physics2D.Raycast(transform.position, -transform.up, rifleRange, layersToHit.value);
-        Debug.DrawRay(transform.position, -transform.up, Color.red);
+        
         if (hit)
         {
             Debug.Log("pew: hit " + hit.transform.name);

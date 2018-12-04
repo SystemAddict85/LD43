@@ -11,10 +11,6 @@ public class Fireplace : InteractableObject
 
     public static bool isFireOn = false;
 
-    private float coldCounter = 0f;
-    [SerializeField]
-    private float freezeIteration = 3f;
-
     public override void Awake()
     {
         base.Awake();
@@ -54,7 +50,7 @@ public class Fireplace : InteractableObject
 
     public override void Interact()
     {
-        if (!isFireOn && ResourceManager.GetWoodAmount() > 0)
+        if (!isFireOn && ResourceManager.WoodCount > 0)
         {
             IgniteFire();
         }
@@ -83,5 +79,20 @@ public class Fireplace : InteractableObject
             }
         }
     }
+
+    public override bool CanInteract(GameObject go)
+    {
+        var player = go.GetComponent<Player>();
+
+        if (!isFireOn && player && !RifleController.IsActivePlayerCarryingGun && player.stats.EnergyPercent > 0f)
+        {
+            return playersAllowedToInteract.Contains(player.playerCharacter);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
 }

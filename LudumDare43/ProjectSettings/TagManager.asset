@@ -19,7 +19,7 @@ TagManager:
   - PlayerBoundary
   - Bullet
   - SafeZoneTrigger
-  - 
+  - EnemySightRange
   - 
   - 
   - 

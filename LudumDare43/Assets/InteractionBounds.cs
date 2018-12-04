@@ -29,20 +29,17 @@ public class InteractionBounds : MonoBehaviour
         if (intObject.CanInteract(col.gameObject))
         {
             charactersInRange.Add(col.GetComponent<Player>().playerCharacter);
-            if (charactersInRange.Count > 0)
-            {
-                PlayersEntered();
-            }
+            PlayerEntered();
         }
     }
 
-    private void PlayersEntered()
+    private void PlayerEntered()
     {
         intObject.ToggleContextButton(true);
         intObject.readyToInteract = true;
     }
 
-    private void PlayersExited()
+    private void PlayerExited()
     {
         intObject.ToggleContextButton(false);
         intObject.readyToInteract = false;
@@ -51,19 +48,18 @@ public class InteractionBounds : MonoBehaviour
     public void OnTriggerExit2D(Collider2D col)
     {
         var player = col.GetComponent<Player>();
-        if (player && charactersInRange.Contains(player.playerCharacter)) { 
-            charactersInRange.Remove(player.playerCharacter);
-            if (charactersInRange.Count == 0)
-            {
-                PlayersExited();
-            }
+        if (player)
+        {
+            PlayerExited();
+            if (charactersInRange.Contains(player.playerCharacter))
+                charactersInRange.Remove(player.playerCharacter);
 
         }
     }
 
     public void GetInput()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (charactersInRange.Contains(ActivePlayerController.ActivePlayerCharacter) && Input.GetButtonDown("Interact"))
         {
             intObject.CheckForInteraction();
         }
@@ -71,13 +67,13 @@ public class InteractionBounds : MonoBehaviour
 
     private void CheckForActivePlayerInBounds(Player.PlayerCharacter player)
     {
-        if (charactersInRange.Contains(player))
+        if (charactersInRange.Contains(player) && intObject.CanInteract(ActivePlayerController.ActivePlayer.gameObject))
         {
-            PlayersEntered();
+            PlayerEntered();
         }
         else
         {
-            PlayersExited();
+            PlayerExited();
         }
     }
 }

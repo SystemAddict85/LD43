@@ -7,15 +7,19 @@ public class UIManager : SimpleSingleton<UIManager> {
     Portrait[] portraits;
     UIStatusBars[] statusBars;
     UIResources[] resources;
+    public DaysRemaining daysRemaining;
+    public DarknessBar darknessBar;
 
     public override void Awake()
     {
         base.Awake();
+        daysRemaining = GetComponentInChildren<DaysRemaining>();
         portraits = GetComponentsInChildren<Portrait>();
         statusBars = GetComponentsInChildren<UIStatusBars>();
         resources = GetComponentsInChildren<UIResources>();
+        darknessBar = GetComponentInChildren<DarknessBar>();
     }
-
+    
     public Portrait GetPortrait(Player.PlayerCharacter character)
     {
         return portraits[(int)character];

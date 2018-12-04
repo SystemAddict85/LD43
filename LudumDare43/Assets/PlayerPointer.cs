@@ -20,4 +20,9 @@ public class PlayerPointer : MonoBehaviour {
         status = newStatus;
         anim.SetInteger("pointerColor", (int)status);
     }
+
+    public void TogglePointerView(bool enabled)
+    {
+        GetComponent<SpriteRenderer>().enabled = enabled;
+    }
 }

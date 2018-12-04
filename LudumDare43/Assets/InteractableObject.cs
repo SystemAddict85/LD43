@@ -16,8 +16,7 @@ public class InteractableObject : MonoBehaviour
             ToggleContextButton(value);            
         }
     }
-
-
+    
     [HideInInspector]
     public bool readyToInteract = false;
     public List<Player.PlayerCharacter> playersAllowedToInteract = new List<Player.PlayerCharacter>();
@@ -26,11 +25,12 @@ public class InteractableObject : MonoBehaviour
     {
         button = GetComponentInChildren<InteractionContextButton>();
     }
+
     public virtual bool CanInteract(GameObject go)
     {
         var player = go.GetComponent<Player>();
 
-        if (player && !RifleController.IsActivePlayerCarryingGun)
+        if (player && !RifleController.IsActivePlayerCarryingGun && player.stats.EnergyPercent > 0f)
         {
             return playersAllowedToInteract.Contains(player.playerCharacter);
         }
@@ -39,6 +39,7 @@ public class InteractableObject : MonoBehaviour
             return false;
         }
     }
+
     public virtual void CheckForInteraction()
     {
         if (!readyToInteract)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public enum PlayerCharacter { Paw, Maw, Girl, Boy };
+    public enum PlayerCharacter { Paw, Maw, Beth, Tom };
     public PlayerCharacter playerCharacter = PlayerCharacter.Paw;
 
     [HideInInspector]
@@ -39,11 +39,11 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool isDrained = false;
     [HideInInspector]
-    public bool isHungry = false;
+    public bool isStarving = false;
     private bool readyToHungerPain = false;
     [SerializeField]
     private float hungerPainIteration = 3f;
-    private Coroutine hungerCoroutine;
+    private Coroutine starvingCoroutine;
 
     public Action<int> OnHealthUpdate;
     public Action<int> OnHungerUpdate;
@@ -53,62 +53,91 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
-    private bool readyToGetHungry = false;
+    private bool readyToGetHungry = true;
     private float normalHungerDuration = 5f;
     private Coroutine normalHungerCoroutine;
+
+    private Bed playerBed;
 
     private void Awake()
     {
         controller = GetComponent<PlayerController>();
         pointer = GetComponentInChildren<PlayerPointer>();
-        stats = GetComponent<PlayerStats>();        
+        stats = GetComponent<PlayerStats>();
         OnDangerEvent += PlayerInDanger;
         OnDangerClear += PlayerNoLongerInDanger;
     }
 
     private void Update()
     {
-        if (readyToGetHungry)
+        if (!isDead)
         {
-            normalHungerCoroutine = StartCoroutine(GettingHungry());
+            if (normalHungerCoroutine == null && readyToGetHungry && !isSleeping)
+            {
+                normalHungerCoroutine = StartCoroutine(GettingHungry());
+            }
+            if (starvingCoroutine == null && !isSleeping && readyToHungerPain && isStarving)
+            {
+                starvingCoroutine = StartCoroutine(HungerPain());
+            }
+            if (sleepCoroutine == null && isSleeping && readyToRest)
+            {
+                sleepCoroutine = StartCoroutine(Resting());
+            }
+            if (coldCoroutine == null && isCold && readyToFreeze)
+            {
+                coldCoroutine = StartCoroutine(Freezing());
+            }
         }
-        if (readyToHungerPain && isHungry)
-        {
-            hungerCoroutine = StartCoroutine(HungerPain());
-        }
-        if (isSleeping && readyToRest)
-        {
-            sleepCoroutine = StartCoroutine(Resting());
-        }
-        if(isCold && readyToFreeze)
-        {
-            coldCoroutine = StartCoroutine(Freezing());
-        }
+    }
+    IEnumerator Freezing()
+    {
+        readyToFreeze = false;
+        yield return new WaitForSeconds(freezingIteration);
+        readyToFreeze = true;
+        OnEnergyUpdate(-1);
+        coldCoroutine = null;
     }
 
     private IEnumerator GettingHungry()
     {
         readyToGetHungry = false;
         yield return new WaitForSeconds(normalHungerDuration);
-        OnHungerUpdate(-1);        
+        OnHungerUpdate(-1);
         readyToGetHungry = true;
+        normalHungerCoroutine = null;
     }
     private IEnumerator Resting()
     {
         readyToRest = false;
         yield return new WaitForSeconds(restingIteration);
-        OnEnergyUpdate(+1);
-        Debug.Log(playerCharacter + " rests in bed.");
-        readyToRest = true;
+        if (isDead)
+        {
+            playerBed.DiedInSleep(this);
+        }
+       else{ 
+            OnEnergyUpdate(+1);
+            Debug.Log(playerCharacter + " rests in bed.");
+            sleepCoroutine = null;
+            if (stats.EnergyPercent >= 1f)
+            {
+                playerBed.Wake(this);
+            }
+            else
+            {
+                readyToRest = true;
+            }
+        }
+
     }
     private IEnumerator HungerPain()
     {
         readyToHungerPain = false;
         yield return new WaitForSeconds(hungerPainIteration);
         OnHealthUpdate(-1);
-        OnEnergyUpdate(-1);
         Debug.Log(playerCharacter + "'s stomach growls.");
         readyToHungerPain = true;
+        starvingCoroutine = null;
     }
 
     public void Die()
@@ -116,29 +145,43 @@ public class Player : MonoBehaviour
         if (!isDead)
         {
             isDead = true;
-            Debug.Log(playerCharacter + " has died.");
+            GetComponent<Collider2D>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            GameMessage.Instance.ShowMessage(playerCharacter + " Is Dead");
+            ActivePlayerController.Instance.SwitchToNextAvailablePlayer();
+            pointer.TogglePointerView(false);
             StartCoroutine(PlayerZoomCamera.Instance.ZoomToEvent(transform, dangerEventDuration));
         }
     }
 
-    public void StartSleep()
+    public void StartSleep(Bed bed)
     {
         if (!isSleeping)
         {
+            playerBed = bed;
             isSleeping = true;
+            controller.isSleeping = true;
+            WarmingUp();
             Debug.Log(playerCharacter + " goes to sleep");
             readyToRest = true;
+            GetComponent<Collider2D>().enabled = false;
+            GetComponentInChildren<SpriteRenderer>().enabled = false;
+            pointer.TogglePointerView(false);
+            ActivePlayerController.Instance.SwitchToNextAvailablePlayer();
         }
     }
 
     public void EndSleep()
     {
+        isSleeping = false;
         if (sleepCoroutine != null)
         {
             StopCoroutine(sleepCoroutine);
         }
-
-        isSleeping = false;
+        GetComponent<Collider2D>().enabled = true;
+        GetComponentInChildren<SpriteRenderer>().enabled = true;
+        pointer.TogglePointerView(true);
+        controller.isSleeping = false;
         readyToRest = false;
     }
 
@@ -151,19 +194,10 @@ public class Player : MonoBehaviour
             Debug.Log(playerCharacter + " is freezing");
         }
     }
-
-    IEnumerator Freezing()
-    {
-        readyToFreeze = false;
-        yield return new WaitForSeconds(3f);
-        readyToFreeze = true;
-        OnEnergyUpdate(-1);
-
-    }
-
+        
     public void WarmingUp()
     {
-        if(coldCoroutine != null)
+        if (coldCoroutine != null)
             StopCoroutine(coldCoroutine);
         isCold = false;
         Debug.Log(playerCharacter + " is warming up.");
@@ -172,10 +206,11 @@ public class Player : MonoBehaviour
 
     public void StartHunger()
     {
-        if (!isHungry)
+        if (!isStarving)
         {
-            isHungry = true;
-            Debug.Log(playerCharacter + " is starving.");
+            isStarving = true;
+            AudioManager.PlaySFX("starving", .5f, 0f);
+            GameMessage.Instance.ShowMessage(playerCharacter + " Is Starving");
             readyToHungerPain = true;
             OnDangerEvent(dangerEventDuration);
         }
@@ -183,12 +218,12 @@ public class Player : MonoBehaviour
 
     public void HungerSatiated()
     {
-        if (isHungry && hungerCoroutine != null)
+        if (isStarving && starvingCoroutine != null)
         {
-            StopCoroutine(hungerCoroutine);
+            StopCoroutine(starvingCoroutine);
 
             --dangerEvents;
-            isHungry = false;
+            isStarving = false;
             readyToHungerPain = false;
             if (!IsInDanger)
             {
@@ -202,7 +237,8 @@ public class Player : MonoBehaviour
         if (!isDrained)
         {
             isDrained = true;
-            Debug.Log(playerCharacter + " is exhausted.");
+            GameMessage.Instance.ShowMessage(playerCharacter + " Is Exhausted");
+            AudioManager.PlaySFX("gotTired", .5f, 0f);
             OnDangerEvent(dangerEventDuration);
         }
     }

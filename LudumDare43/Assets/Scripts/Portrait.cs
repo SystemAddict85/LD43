@@ -43,7 +43,7 @@ public class Portrait : MonoBehaviour
     }
 
     private void ChangePlayer()
-    {
+    {        
         ActivePlayerController.Instance.OnPlayerChange(playerCharacter);
                 
         //if(playerCharacter == Player.PlayerCharacter.Boy)

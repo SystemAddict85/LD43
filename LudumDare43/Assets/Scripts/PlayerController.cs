@@ -4,6 +4,7 @@ public class PlayerController : CharController
 {
 
     private Player player;
+    public bool isSleeping = false;
 
     protected override void Awake()
     {
@@ -12,7 +13,7 @@ public class PlayerController : CharController
     }
     protected override void Update()
     {
-        if (canMove && ActivePlayerController.IsActivePlayer(player.playerCharacter))
+        if (!isSleeping && canMove && ActivePlayerController.IsActivePlayer(player.playerCharacter))
         {
             var dir = GetInput();
             if (dir != Vector2.zero)

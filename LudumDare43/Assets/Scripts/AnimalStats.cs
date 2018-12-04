@@ -18,14 +18,8 @@ public class AnimalStats : MonoBehaviour
         currentHealth -= damage;
         if(currentHealth <= 0)
         {
-            Die();
+            GetComponent<Rabbit>().Die();
         }
     }
-
-    private void Die()
-    {
-        Debug.Log("killed " + name);
-        ResourceManager.Instance.ChangeResourceValue(ResourceManager.ResourceType.FOOD, 5);
-        Destroy(gameObject, 1.5f);
-    }
+    
 }

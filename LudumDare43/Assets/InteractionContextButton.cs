@@ -13,6 +13,9 @@ public class InteractionContextButton : MonoBehaviour
 
     public void ToggleButton(bool enabled)
     {
-        rend.enabled = enabled;
+        // protects against any rabbits dying or being picked up
+    
+        if(rend)
+            rend.enabled = enabled;
     }
 }
